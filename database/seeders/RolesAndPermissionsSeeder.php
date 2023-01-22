@@ -20,6 +20,7 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'look projects']);
         Permission::create(['name' => 'edit projects']);
         Permission::create(['name' => 'edit tasks']);
+        Permission::create(['name' => 'look tasks']);
 
         Role::create(['name' => 'admin'])
             ->givePermissionTo(Permission::all());
@@ -29,5 +30,8 @@ class RolesAndPermissionsSeeder extends Seeder
 
         Role::create(['name' => 'worker'])
             ->givePermissionTo(['look projects', 'edit tasks']);
+
+        Role::create(['name' => 'user'])
+            ->givePermissionTo(['look projects', 'look tasks']);
     }
 }

@@ -36,10 +36,11 @@ Route::group([
         Route::resource('/projects', ProjectController::class)->except(['index, show']);
     });
 
-    Route::group(['middleware' => 'role:admin|manager|worker'], function () {
+    Route::resource('/tasks', TaskController::class)->except(['index'])->middleware('role:admin|manager|worker');
+
+    Route::group(['middleware' => 'role:admin|manager|worker|user'], function () {
         Route::get('/projects/', [ProjectController::class, 'index'])->name('projects.index');
         Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
+        Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index');
     });
-
-    Route::resource('/tasks', TaskController::class);
 });
