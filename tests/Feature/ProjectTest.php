@@ -231,7 +231,7 @@ class ProjectTest extends TestCase
         ]);
     }
 
-    // WOrker Section
+    // Worker Section
     public function test_worker_can_open_project_page_with_no_data()
     {
         $response = $this->actingAs($this->worker)->get(route('home.projects.index'));
@@ -255,7 +255,22 @@ class ProjectTest extends TestCase
         });
     }
 
-    public function test_worker_have_no_access_to_crud()
+    public function test_worker_can_open_project_show_detail()
+    {
+        $project = Project::factory()->create();
+
+        $response = $this->actingAs($this->worker)->get(route('home.projects.show', $project->id));
+        $response->assertStatus(200);
+
+        $response->assertSee('value="' . $project->title . '"', escape: false);
+        $response->assertSee($project->description);
+        $response->assertSee('value="' . $project->deadline . '"', escape: false);
+        $response->assertSee('value="' . ucwords($project->status) . '"', escape: false);
+
+        $response->assertViewHas('project', $project);
+    }
+
+    public function test_worker_have_no_access_to_crud_except_show()
     {
         $project = Project::factory()->create();
 
@@ -296,7 +311,22 @@ class ProjectTest extends TestCase
         });
     }
 
-    public function test_user_have_no_access_to_crud()
+    public function test_user_can_open_project_show_detail()
+    {
+        $project = Project::factory()->create();
+
+        $response = $this->actingAs($this->user)->get(route('home.projects.show', $project->id));
+        $response->assertStatus(200);
+
+        $response->assertSee('value="' . $project->title . '"', escape: false);
+        $response->assertSee($project->description);
+        $response->assertSee('value="' . $project->deadline . '"', escape: false);
+        $response->assertSee('value="' . ucwords($project->status) . '"', escape: false);
+
+        $response->assertViewHas('project', $project);
+    }
+
+    public function test_user_have_no_access_to_crud_except_show()
     {
         $project = Project::factory()->create();
 

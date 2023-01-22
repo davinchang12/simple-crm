@@ -353,6 +353,21 @@ class TaskTest extends TestCase
         });
     }
 
+    public function test_user_can_open_task_show_detail()
+    {
+        $task = Task::factory()->create();
+
+        $response = $this->actingAs($this->user)->get(route('home.tasks.show', $task->id));
+        $response->assertStatus(200);
+
+        $response->assertSee('value="' . $task->title . '"', escape: false);
+        $response->assertSee($task->description);
+        $response->assertSee('value="' . $task->deadline . '"', escape: false);
+        $response->assertSee('value="' . ucwords($task->status) . '"', escape: false);
+
+        $response->assertViewHas('task', $task);
+    }
+
     public function test_user_have_no_access_to_crud()
     {
         $task = Task::factory()->create();
