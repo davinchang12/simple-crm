@@ -50,6 +50,8 @@
                                     @endforeach
                                 </tbody>
                             </table>
+
+                            {{ $tasks->links() }}
                         @else
                             No task found.
                         @endif

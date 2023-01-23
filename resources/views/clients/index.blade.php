@@ -48,6 +48,8 @@
                                     @endforeach
                                 </tbody>
                             </table>
+
+                            {{ $clients->links() }}
                         @else
                             No client found.
                         @endif

@@ -53,6 +53,8 @@
                                     @endforeach
                                 </tbody>
                             </table>
+
+                            {{ $projects->links() }}
                         @else
                             No project found.
                         @endif

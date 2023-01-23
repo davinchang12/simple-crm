@@ -16,7 +16,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::with('roles')->get()->except(auth()->id());
+        $users = User::with('roles')->whereKeyNot(auth()->id())->paginate(5);
+
         return view('users.index', compact('users'));
     }
 
